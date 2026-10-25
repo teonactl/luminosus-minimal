@@ -47,6 +47,10 @@ qt_add_executable(luminosus-minimal
     ${PROJECT_RESOURCES}
 )
 
+if(APPLE)
+    set_target_properties(luminosus-minimal PROPERTIES MACOSX_BUNDLE TRUE)
+endif()
+
 # --- Include Directories ---
 target_include_directories(luminosus-minimal PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
