@@ -6,8 +6,6 @@ import "qrc:/core/ui/items"
 
 
 StretchColumn {
-	anchors.fill: parent
-
     property bool showCombinations: false
 
     function saveCombination() {
@@ -128,7 +126,7 @@ StretchColumn {
 
             Connections {
                 target: controller
-                onDeveloperModeChanged: blockListContainer.showAllBlocks()
+                function onDeveloperModeChanged() { blockListContainer.showAllBlocks() }
             }
 
 			function showAllBlocks() {

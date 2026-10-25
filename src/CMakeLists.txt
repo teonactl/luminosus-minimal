@@ -10,15 +10,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 # --- Qt Components ---
-set(QT_REQUIRED_COMPONENTS Core Quick Svg Network Concurrent)
+set(QT_REQUIRED_COMPONENTS Core Quick Svg Network Concurrent WebSockets)
 
 option(LUMINOSUS_MULTIMEDIA_AVAILABLE "Enable Multimedia support" OFF) # Corresponds to 'multimedia_available' CONFIG
 
 if(LUMINOSUS_MULTIMEDIA_AVAILABLE)
     list(APPEND QT_REQUIRED_COMPONENTS Multimedia)
 endif()
-
-set(Qt6_DIR /Users/tim/Qt/6.9.1/macos/lib/cmake/Qt6)
 
 find_package(Qt6 REQUIRED COMPONENTS ${QT_REQUIRED_COMPONENTS})
 
@@ -59,6 +57,7 @@ target_link_libraries(luminosus-minimal PRIVATE
     Qt6::Svg
     Qt6::Network
     Qt6::Concurrent
+    Qt6::WebSockets
 )
 
 if(LUMINOSUS_MULTIMEDIA_AVAILABLE)

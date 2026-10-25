@@ -86,7 +86,7 @@ StretchColumn {
 			visible: level > 0
 		}
 
-        onTouchUp: {
+        onTouchUp: function(touch, isSecond, canceled) {
 			if (!canceled) {
                 if (collapsed) {
                     controller.playClickSound()

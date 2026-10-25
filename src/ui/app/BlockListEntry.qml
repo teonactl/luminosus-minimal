@@ -54,7 +54,7 @@ CustomTouchArea {
         //rippleEffect.touchStart(touch.itemX, touch.itemY)
     }
 
-    onTouchUp: {
+    onTouchUp: function(touch, isSecond, canceled) {
 		if (!canceled) {
             controller.playClickSound()
             touchFeedbackEffect.start()

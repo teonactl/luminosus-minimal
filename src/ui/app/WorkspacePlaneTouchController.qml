@@ -14,7 +14,7 @@ CustomTouchArea {
     KineticEffect2D {
         id: kineticEffect
         friction: 0.06
-        onMoving: {
+        onMoving: function(position, origin, isManual) {
             plane.x = position.x
             plane.y = position.y
         }
@@ -35,7 +35,7 @@ CustomTouchArea {
         }
     }
 
-    onTouchDown: {
+    onTouchDown: function(touch, isSecond) {
         if (zoomOutInAnimation.running) return
         planeMinScaleAnimation.stop()
         planeNormalScaleAnimation.stop()
@@ -48,7 +48,7 @@ CustomTouchArea {
         }
     }
 
-    onTouchMove: {
+    onTouchMove: function(touch, isSecond) {
         if (zoomOutInAnimation.running) return
         if (!getSecondTouch().isValid) {
             kineticEffect.update(touch.x, touch.y)
@@ -61,7 +61,7 @@ CustomTouchArea {
         }
     }
 
-    onTouchUp: {
+    onTouchUp: function(touch, isSecond, canceled) {
         if (zoomOutInAnimation.running) return
         if (!getSecondTouch().isValid) {
             kineticEffect.stop(touch.x, touch.y)
@@ -124,7 +124,7 @@ CustomTouchArea {
         zoomOutInAnimation.start()
     }
 
-    onScrollEvent: {
+    onScrollEvent: function(deltaX, deltaY) {
         plane.x += deltaX
         plane.y += deltaY
         onExternalPositionChange()

@@ -67,7 +67,7 @@ Window {
             onYChanged: controller.blockManager().updateBlockVisibility(plane)
         }
 
-        Keys.onPressed: {
+        Keys.onPressed: function(event) {
             if (event.key === Qt.Key_Z && (event.modifiers & Qt.ControlModifier)) {
                 // handle CTRL + Z shortcut:
                 controller.blockManager().restoreDeletedBlock()
@@ -195,7 +195,7 @@ Window {
                     width: 30*dp
                     onPress: controller.blockManager().goToParentGroup()
                     iconName: "down_arrow_slim"
-                    rotation: 180
+                    iconRotation: 180
                 }
             }
         }
@@ -335,7 +335,7 @@ Window {
 
         Connections {
             target: controller.anchorManager()
-            onPresentationModeChanged: {
+            function onPresentationModeChanged() {
                 if (controller.anchorManager().presentationMode
                         && drawer.offset > 0) {
                     drawerCloseAnimation.start()
@@ -345,7 +345,7 @@ Window {
 
         Connections {
             target: guiManager
-            onOpenBlockSettings: {
+            function onOpenBlockSettings() {
                 if (!drawer.visible) {
                     drawerCloseAnimation.stop()
                     drawerOpenAnimation.start()
@@ -359,7 +359,7 @@ Window {
     MessageDialog {
         id: templateImportDialog
         title: "Import Template"
-        buttons: Dialog.Open | Dialog.Cancel
+        buttons: MessageDialog.Open | MessageDialog.Cancel
         visible: controller.templateFileToImport
 
         onAccepted: {

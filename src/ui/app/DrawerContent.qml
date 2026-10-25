@@ -70,7 +70,7 @@ Item {
 
     Connections {
         target: guiManager
-        onOpenBlockSettings: {
+        function onOpenBlockSettings() {
             if (tabView.currentIndex !== 1) {
                 tabView.currentIndex = 1
             }

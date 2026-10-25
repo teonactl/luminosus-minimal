@@ -160,7 +160,7 @@ StretchColumn {
             values: [1, 2, 3]
             texts: ["Low", "Mid", "High"]
             Component.onCompleted: setValue(GRAPHICAL_EFFECTS_LEVEL)
-            onValueChanged: {
+            onValueChanged: function(value) {
                 if (value !== GRAPHICAL_EFFECTS_LEVEL) {
                     guiManager.setGraphicsLevel(value)
                 }
