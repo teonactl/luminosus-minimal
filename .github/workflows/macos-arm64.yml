@@ -46,7 +46,20 @@ jobs:
 
       - name: Deploy Qt frameworks into the app bundle
         run: |
-          macdeployqt build/luminosus-minimal.app -dmg
+          macdeployqt build/luminosus-minimal.app
+
+      - name: Ad-hoc code sign
+        # No paid Apple Developer certificate is available here, but Apple
+        # Silicon refuses to run ANY unsigned arm64 binary outright (not just
+        # a Gatekeeper warning like on Intel) - an ad-hoc signature (no
+        # identity, just "-") is the minimum needed for it to launch at all.
+        run: |
+          codesign --force --deep --sign - build/luminosus-minimal.app
+
+      - name: Create dmg
+        run: |
+          hdiutil create -volname luminosus-minimal -srcfolder build/luminosus-minimal.app \
+            -ov -format UDZO build/luminosus-minimal.dmg
 
       - name: Upload dmg
         uses: actions/upload-artifact@v4
