@@ -1,0 +1,56 @@
+name: Build macOS (Apple Silicon)
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: build-macos-arm64-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-14  # Apple Silicon (arm64) hosted runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.9.1'
+          host: 'mac'
+          target: 'desktop'
+          arch: 'clang_64'
+          modules: 'qtwebsockets qt5compat'
+          cache: true
+
+      - name: Generate websocket certificate
+        run: |
+          cd src/core/data
+          openssl req -x509 -newkey rsa:4096 -keyout luminosus_websocket.key \
+            -out luminosus_websocket.cert -days 3650 -sha256 -nodes \
+            -subj "/CN=localhost"
+
+      - name: Configure
+        run: |
+          cmake -S src -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES=arm64
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Deploy Qt frameworks into the app bundle
+        run: |
+          macdeployqt build/luminosus-minimal.app -dmg
+
+      - name: Upload dmg
+        uses: actions/upload-artifact@v4
+        with:
+          name: luminosus-minimal-macos-arm64
+          path: build/luminosus-minimal.dmg
+          if-no-files-found: error
