@@ -6,5 +6,11 @@
         <file>images/bg/polygon_grey.jpg</file>
         <file>images/bg/solid_black.jpg</file>
         <file>images/bg/solid_grey.jpg</file>
+        <file>images/tombstone.png</file>
+        <file>images/etc_logo_180.png</file>
+        <file>images/etc_logo_180_circle_red.png</file>
+        <file>images/etc_logo_180_circle_green.png</file>
+        <file>images/fader_go_icon.png</file>
+        <file>images/fader_stop_icon.png</file>
     </qresource>
 </RCC>
