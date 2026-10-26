@@ -18,5 +18,9 @@
         <file>ui/settings/GuiSettings.qml</file>
         <file>ui/settings/SettingsCategory.qml</file>
         <file>ui/settings/WebsocketSettings.qml</file>
+        <file>ui/settings/EosSettings.qml</file>
+        <file>ui/settings/OscConnectionArea.qml</file>
+        <file>ui/settings/OscPresetArea.qml</file>
+        <file>ui/settings/NewOscPresetArea.qml</file>
     </qresource>
 </RCC>

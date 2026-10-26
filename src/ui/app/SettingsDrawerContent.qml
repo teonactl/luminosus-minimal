@@ -33,6 +33,17 @@ VerticalScrollView {
         }
 
         SettingsCategory {
+            name: "ETC Eos"
+
+            EosSettings {
+                visible: !parent.collapsed
+            }
+        }
+
+		HorizontalDivider {  // ------------------------------------------------------
+        }
+
+        SettingsCategory {
             name: "GUI"
 
             GuiSettings {
