@@ -10,7 +10,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 # --- Qt Components ---
-set(QT_REQUIRED_COMPONENTS Core Quick Svg Network Concurrent WebSockets)
+set(QT_REQUIRED_COMPONENTS Core Quick Svg Network Concurrent WebSockets ShaderTools)
 
 option(LUMINOSUS_MULTIMEDIA_AVAILABLE "Enable Multimedia support" OFF) # Corresponds to 'multimedia_available' CONFIG
 
@@ -62,6 +62,12 @@ target_link_libraries(luminosus-minimal PRIVATE
     Qt6::Network
     Qt6::Concurrent
     Qt6::WebSockets
+    # Not used directly, but Qt5Compat.GraphicalEffects' private QML plugin
+    # (FastBlur etc., used by DarkBackgroundBlur.qml) links against it at
+    # runtime. Linking it here too makes macdeployqt see it as a direct
+    # dependency of the executable and actually bundle the framework -
+    # otherwise the app launches but fails to load that QML plugin on macOS.
+    Qt6::ShaderTools
 )
 
 if(LUMINOSUS_MULTIMEDIA_AVAILABLE)
