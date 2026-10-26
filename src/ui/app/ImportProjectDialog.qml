@@ -1,15 +1,16 @@
 import QtQuick 2.5
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs
+import QtCore
 
 FileDialog {
     id: importDialog
     title: "Import Project"
-    folder: shortcuts.home
-    selectMultiple: false
+    currentFolder: StandardPaths.writableLocation(StandardPaths.HomeLocation)
+    fileMode: FileDialog.OpenFile
     nameFilters: controller.projectManager().getFilenameFilters()
     onAccepted: {
-        if (fileUrl) {
-            controller.projectManager().importProjectFile(fileUrl)
+        if (selectedFile) {
+            controller.projectManager().importProjectFile(selectedFile)
         }
     }
     onRejected: {

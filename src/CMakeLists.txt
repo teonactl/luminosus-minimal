@@ -10,7 +10,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 # --- Qt Components ---
-set(QT_REQUIRED_COMPONENTS Core Quick Svg Network Concurrent WebSockets ShaderTools)
+set(QT_REQUIRED_COMPONENTS Core Quick Svg Network Concurrent WebSockets ShaderTools
+    Core5Compat QuickControls2 QuickDialogs2 QuickLayouts)
 
 option(LUMINOSUS_MULTIMEDIA_AVAILABLE "Enable Multimedia support" OFF) # Corresponds to 'multimedia_available' CONFIG
 
@@ -62,12 +63,19 @@ target_link_libraries(luminosus-minimal PRIVATE
     Qt6::Network
     Qt6::Concurrent
     Qt6::WebSockets
-    # Not used directly, but Qt5Compat.GraphicalEffects' private QML plugin
-    # (FastBlur etc., used by DarkBackgroundBlur.qml) links against it at
-    # runtime. Linking it here too makes macdeployqt see it as a direct
-    # dependency of the executable and actually bundle the framework -
-    # otherwise the app launches but fails to load that QML plugin on macOS.
+    # None of the following four are called directly from our own C++ code -
+    # they back QML modules imported only from .qml files (Qt5Compat.
+    # GraphicalEffects, QtQuick.Controls, QtQuick.Dialogs, QtQuick.Layouts).
+    # Linking them here too makes macdeployqt see them as direct dependencies
+    # of the executable and bundle their frameworks on macOS, instead of
+    # relying solely on -qmldir's qmlimportscan (which already confirmed to
+    # miss at least one transitive dependency: ShaderTools, needed internally
+    # by the GraphicalEffects private plugin).
     Qt6::ShaderTools
+    Qt6::Core5Compat
+    Qt6::QuickControls2
+    Qt6::QuickDialogs2
+    Qt6::QuickLayouts
 )
 
 if(LUMINOSUS_MULTIMEDIA_AVAILABLE)

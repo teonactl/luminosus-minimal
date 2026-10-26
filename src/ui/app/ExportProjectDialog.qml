@@ -1,16 +1,16 @@
 import QtQuick 2.5
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs
+import QtCore
 
 FileDialog {
     id: exportDialog
     title: "Export Project"
-    folder: shortcuts.home
-    selectMultiple: false
-    selectExisting: false
+    currentFolder: StandardPaths.writableLocation(StandardPaths.HomeLocation)
+    fileMode: FileDialog.SaveFile
     nameFilters: controller.projectManager().getFilenameFilters()
     onAccepted: {
-        if (fileUrl) {
-            controller.projectManager().exportCurrentProjectTo(fileUrl)
+        if (selectedFile) {
+            controller.projectManager().exportCurrentProjectTo(selectedFile)
         }
     }
     onRejected: {
