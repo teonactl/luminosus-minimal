@@ -45,8 +45,13 @@ jobs:
         run: cmake --build build --parallel
 
       - name: Deploy Qt frameworks into the app bundle
+        # -qmldir is required for macdeployqt to scan the actual .qml sources
+        # and bundle the QML plugins they import (Qt5Compat.GraphicalEffects,
+        # QtQuick.Dialogs, QtQuick.Window, ...) - without it, only the Qt
+        # frameworks linked directly by the C++ binary get deployed, and the
+        # app fails to load its QML at runtime with "module ... is not installed".
         run: |
-          macdeployqt build/luminosus-minimal.app
+          macdeployqt build/luminosus-minimal.app -qmldir=src
 
       - name: Ad-hoc code sign
         # No paid Apple Developer certificate is available here, but Apple
